@@ -26,12 +26,7 @@ function App() {
       error: "",
     });
     axios
-      .get(path, {
-        auth: {
-          username: "cicimia2266",
-          password: "5a4d29c4cc0745e35fb1d4dcd558df2ca967e23b",
-        },
-      })
+      .get(path)
       .then((res) => {
         const user = res.data;
         setUserData({
@@ -53,12 +48,7 @@ function App() {
     const baseUrl = "https://api.github.com/users/";
     let path = baseUrl + username + "/following";
     axios
-      .get(path, {
-        auth: {
-          username: "cicimia2266",
-          password: "5a4d29c4cc0745e35fb1d4dcd558df2ca967e23b",
-        },
-      })
+      .get(path)
       .then((res) => {
         const userFollowing = res.data;
         setUserFollowing(userFollowing);
@@ -75,7 +65,7 @@ function App() {
             path="/home"
             component={()=><Home userData={userData}/>} />
           <Route exact path="/following" component={()=><Following userFollowing={userFollowing}/>} />
-          <Route path="/" component={Home} />
+          <Route path="/" component={()=><Home userData={userData}/>} />
         </Switch>
       </Layout>
     </Router>
