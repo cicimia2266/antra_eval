@@ -62,12 +62,12 @@ function App() {
   return (
     <Router>
       <Header fetchUserInfo={fetchUserInfo} fetchUserFollowing={fetchUserFollowing}/>
-      <Layout>
+      {/* <Layout> */}
         <Switch>
           <Route exact path="/following" component={()=><Following userFollowing={userFollowing} handleLoadMore={handleLoadMore} userData={userData} pageIndex={pageIndex}/>} />
           <Route path="/" component={()=><Home userData={userData} />} />
         </Switch>
-      </Layout>
+      {/* </Layout> */}
     </Router>
   );
 }

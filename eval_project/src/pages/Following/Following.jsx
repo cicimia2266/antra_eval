@@ -20,7 +20,7 @@ const Following = ({ userFollowing, handleLoadMore, userData, pageIndex }) => {
       })}
       <div className="d-flex flex-row align-items-center justify-content-between m-3">
         <div>{pageIndex * 10}/{userData.user.following}</div>
-        <div onClick={()=>{handleLoadMore()}}> Load More</div>
+        <div className="load-more" onClick={()=>{handleLoadMore()}}> Load More</div>
       </div>
     </div>
   );
