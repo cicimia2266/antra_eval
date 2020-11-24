@@ -1,4 +1,13 @@
-.img-container{
-    width: 150px;
-    height: 150px;
+.result-card {
+  width: 400px;
+}
+.center-content{
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+.img-container {
+  width: 150px;
+  height: 150px;
 }

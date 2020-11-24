@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header/Header";
 import Layout from "./components/Layout/Layout";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Following from "./pages/Following/Following";
-import axios from "axios";
+import { userApi, followingApi } from "./api";
 
 const initialState = {
   loading: false,
@@ -15,18 +15,15 @@ const initialState = {
 function App() {
   const [userData, setUserData] = useState(initialState);
   const [userFollowing, setUserFollowing] = useState([]);
+  const [pageIndex, setPageIndex] = useState(1);
 
   const fetchUserInfo = (username) => {
-    const baseUrl = "https://api.github.com/users/";
-    let path = baseUrl + username;
-    console.log(path);
     setUserData({
       loading: true,
       user: {},
       error: "",
     });
-    axios
-      .get(path)
+    userApi(username)
       .then((res) => {
         const user = res.data;
         setUserData({
@@ -44,15 +41,21 @@ function App() {
         });
       });
   };
-  const fetchUserFollowing = (username)=>{
-    const baseUrl = "https://api.github.com/users/";
-    let path = baseUrl + username + "/following";
-    axios
-      .get(path)
+  const fetchUserFollowing = (username, pageIndex)=>{
+    followingApi(username, pageIndex, 10)
       .then((res) => {
-        const userFollowing = res.data;
-        setUserFollowing(userFollowing);
+        const nextUsers = res.data;
+        setUserFollowing(prevState=>[...prevState, ...nextUsers]);
       })
+  }
+
+  useEffect(() => {
+    console.log(pageIndex);
+    fetchUserFollowing(userData.user.login, pageIndex);
+  }, [pageIndex])
+
+  const handleLoadMore = () => {
+    setPageIndex(prevState=>prevState+=1);
   }
 
 
@@ -61,11 +64,8 @@ function App() {
       <Header fetchUserInfo={fetchUserInfo} fetchUserFollowing={fetchUserFollowing}/>
       <Layout>
         <Switch>
-          <Route
-            path="/home"
-            component={()=><Home userData={userData}/>} />
-          <Route exact path="/following" component={()=><Following userFollowing={userFollowing}/>} />
-          <Route path="/" component={()=><Home userData={userData}/>} />
+          <Route exact path="/following" component={()=><Following userFollowing={userFollowing} handleLoadMore={handleLoadMore} userData={userData} pageIndex={pageIndex}/>} />
+          <Route path="/" component={()=><Home userData={userData} />} />
         </Switch>
       </Layout>
     </Router>

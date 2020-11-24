@@ -3,14 +3,14 @@ import "./Home.scss"
 
 
 const Home = ({userData}) => {
-    console.log(userData);
-    return !userData.user.login ? (<div>Please search for a github user</div>):
+
+    return userData.error ? (
+      <h2 className="center-content">Cannot find user</h2>
+    ) : !userData.user.login ? (<h2 className="center-content">Please search for a github user</h2>):
    userData.loading ? (
-    <h2>Loading</h2>
-  ) : userData.error ? (
-    <h2>Cannot find user</h2>
-  ) : (
-    <div className="card bg-light p-2 align-items-center text-center">
+    <h2 className="center-content">Loading</h2>
+  ) :  (
+    <div className="card bg-light p-2 align-items-center text-center result-card center-content">
       <div className="img-container m-2">
         <img
           className="card-img-top avatar"

@@ -1,8 +1,9 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Header = ({fetchUserInfo, fetchUserFollowing}) => {
   const [input, setInput] = useState("");
+  const history = useHistory();
   const handleInput = (e)=>{
     setInput(e.target.value);
   }
@@ -11,7 +12,8 @@ const Header = ({fetchUserInfo, fetchUserFollowing}) => {
     e.preventDefault();
     if (input !== "") {
       fetchUserInfo(input);
-      fetchUserFollowing(input);
+      fetchUserFollowing(input, 1);
+      history.push(`/`)
     } else {
       alert("Please enter a username.")
     }
@@ -19,9 +21,9 @@ const Header = ({fetchUserInfo, fetchUserFollowing}) => {
 
   return (
     <nav className="navbar navbar-expand-sm bg-light navbar-light">
-      <Link className="navbar-brand" to="/">
+      <div className="navbar-brand">
         GitHub Searcher
-      </Link>
+      </div>
 
       <ul className="navbar-nav">
         <li className="nav-item">
@@ -43,7 +45,7 @@ const Header = ({fetchUserInfo, fetchUserFollowing}) => {
           onChange = {handleInput}
           aria-label="Search"
         />
-        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+        <button className="btn btn-outline-success my-2" type="submit">
           Search
         </button>
       </form>
