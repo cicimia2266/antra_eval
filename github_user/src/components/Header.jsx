@@ -1,14 +1,19 @@
 import React, {useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-const Header = ({fetchUserInfo}) => {
+const Header = ({fetchUserInfo, fetchUserFollowing}) => {
+    let history = useHistory();
     const [input, setInput] = useState("");
     const handleInput = (e)=>{
         setInput(e.target.value);
     }
     const handleSubmit = (e) =>{
         e.preventDefault();
-        fetchUserInfo(input);
+        if (input !== ""){
+            fetchUserInfo(input);
+            fetchUserFollowing(input, 1);
+            history.push("/")
+        }
     }
     
   return (

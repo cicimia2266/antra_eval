@@ -2,8 +2,8 @@ import React from 'react'
 
 const Home = ({userData}) => {
     return ( userData.error ? 
-        <h2>User not found!</h2> : !userData.user.login ? 
-        <h2>Please enter a Github username to start Searching</h2>:
+        <h2 className="center-content">User not found!</h2> : !userData.user.login ? 
+        <h2 className="center-content">Please enter a Github username</h2>:
         (
             <div className="card bg-light p-2 text-center user-card center-content">
                 <div className="mt-3">
